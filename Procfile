@@ -1,2 +1,2 @@
-release: python event/manage.py migrate
-web: gunicorn event.event.wsgi
+release: python manage.py migrate
+web: gunicorn event.wsgi
