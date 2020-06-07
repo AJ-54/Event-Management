@@ -1,0 +1,65 @@
+{% load static %}
+<html>
+<head>
+	<title>Team Information- StackHack 1.0</title>
+	<style>
+        <style>
+		*{
+			box-sizing: border-box;
+		}	
+		.navbar1 a {
+			float: left;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+			font-size: 18px;
+		}
+		.topnav-right{float:right;}
+		body {
+			margin: 0;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+		.content {
+			
+			background: white;
+			color: black;
+			width: 10%;
+			padding: 20px;
+		}
+		.a1{text-decoration:none;}
+		img{
+			border-radius: 8px;
+		}
+		.zoom:hover {
+			transform: scale(2.3);
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+		}		
+	</style>
+</head>
+<header style="color:white; background-color:black;">
+		<div class="navbar1" style="background-color:black; overflow:hidden;">
+			<a href="{% url 'home' %}"><b style="font-size:30px;">STACKHACKERS</b> &nbsp &nbsp &nbsp</a>
+			<div class="topnav-right">
+				<a class="a1" href="{% url 'register' %}"><b style="color:white; font-size:22px">Register Event</b></a>
+				<a class="a1" href="{% url 'login' %}"><b style="color:white; font-size:22px">Admin Login</b></a>
+				<a href="{% url 'team' %}"><img src="{% static "images/team_name.jpg"%}" height=20px width=20px/><b>Team Info</b></a>
+			</div>
+		</div>
+</header>
+<body style="background-color:black;text-align:center">
+	<h1 style="color:white; font-size:50px"><b>Contact Us</b></h1>
+	<hr style="color:white;align=center;width:250">
+	<br><br>
+	
+	<table>
+		<tr height=50%></tr>
+		<tr>
+			<a><img class="zoom" src="{% static "images/email.jpg" %}" height="25px"/>a</a> &nbsp &nbsp 
+			<a><img class="zoom" src="{% static "images/phone.png" %}" height="25px" width="30px"/></a>
+		</tr>
+		
+		<tr>
+	<table>
+</body>
+</html>

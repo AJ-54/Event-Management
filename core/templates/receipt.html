@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+	body {
+		font-family: Arial, Helvetica, sans-serif;
+		background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+		background-size: 400% 400%;
+		animation: gradient 15s ease infinite;
+	}
+
+	@keyframes gradient {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
+	}
+
+	*{
+		box-sizing: border-box;
+	}
+	
+	fieldset {
+		font-family: "Montserrat", "sans-serif"; 
+		//width: 45em;                            
+		border-radius: 0.5em;                   
+		border: 0.1em solid #ccc;              
+		background-color: #808b96;              
+		box-shadow: 0.08em 0.05em 0.08em #ccc; 
+		margin-bottom: 2em;
+	}
+	
+	input {
+		width: 100%;
+		padding: 12px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-sizing: border-box;
+		margin-top: 6px;
+		margin-bottom: 16px;
+	}
+
+	.container {
+		background-color: white;
+		padding: 16px;
+	}
+	
+	input[type=text],input[type=number], input[type=password] {
+		width: 100%;
+		padding: 15px;
+		margin: 5px 0 22px 0;
+		display: inline-block;
+		border: none;
+		border-bottom: 2px solid;
+		
+	}
+	
+	#message {
+		display:none;
+		background: #f1f1f1;
+		color: #000;
+		position: relative;
+		padding: 20px;
+		margin-top: 10px;
+	}
+	
+	#message p {
+		padding: 10px 35px;
+		font-size: 18px;
+	}
+
+	.valid {
+		color: green;
+	}
+
+	.valid:before {
+		position: relative;
+		left: -35px;
+		content: "+";
+	}
+
+	.invalid {
+		color: red;
+	}
+
+	.invalid:before {
+		position: relative;
+		left: -35px;
+		content: "-";
+	}
+	input[type=text]:focus, input[type=password]:focus {
+		background-color: #ddd;
+		outline: none;
+	}
+
+	hr {
+		border: 1px solid #f1f1f1;
+		margin-bottom: 25px;
+	}
+
+	.registerbtn {
+		background-color: rgb(255, 255, 255);
+		outline: none;
+		color: #111111;
+		padding: 16px 20px;
+		margin: 8px 0;
+		border: none;
+		cursor: pointer;
+		width: 100%;
+		opacity: 0.9;
+		font-size: 16px;
+		border: none;
+		border-radius: 10px;
+		box-shadow: 0 4px #999;
+	}
+	.registerbtn:hover {
+		opacity: 1;
+	}
+
+	a {
+		color: dodgerblue;
+	}
+
+	.signin {
+		background-color: #f1f1f1;
+		text-align: center;
+	}
+	form{
+		position:absolute;
+		top:50%;
+		left:50%;
+		transform:translate(-50%,-50%);
+		width:800px;
+		height:500px;
+		box-sizing:border-box;
+		background:rgba(0,0,0,0.5);
+		padding:40px;	
+	}
+	
+</style>
+</head>
+
+<body>
+
+	<form name="myform" id="my"  enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+
+		<font face=jokerman color="black"> <h1 align="center">Registration Details of {{obj.name}} </h1> </font>
+		<fieldset><legend><b><font size=5px color="black"></font></b></legend>
+
+		<div class="container">
+		<hr>
+		<label for="token"><b>Registration Number</b></label>
+		<input class="inputclass" type="text" placeholder="{{obj.token}}" name="token" disabled>
+
+        <label for="name"><b>Name</b></label>
+		<input class="inputclass" type="text" placeholder="{{obj.name}}" name="name" disabled>
+		
+		<label for="mobile"><b>Mobile</b></label>
+		<input class="inputclass" type="text" placeholder="{{obj.phone_number}}" name="mobile" disabled>
+	
+		<label for="email"><b>Email</b></label>
+		<input class="inputclass" type="text" placeholder="{{obj.email}}" name="email" disabled>
+		
+		<label for="file1" style="color:black"><b>ID Card</b></label><br><br>
+		<img src="{{MEDIA_URL}}{{obj.proof.url}}"><br><br>
+		
+		<label for="type" style="color:black"><b>Registration Type</b></label><br><br>
+		<input class="inputclass" type="text" placeholder="{{obj.org}}" name="type" disabled>
+		<br><br>
+		<label for="ticket" style="color:black"><b>No of Tickets</b></label>
+		<input type="number" id="myText" placeholder="{{obj.ticket}}" name="ticket" disabled> <br>
+		
+		<div class="container signin" style="background-color: rgb(255, 255, 255);outline: none;
+		color: #111111;padding: 16px 20px;margin: 8px 0;border: none;cursor: pointer;width: 100%;opacity: 0.9; font-size: 16px; border: none; border-radius: 10px; box-shadow: 0 4px #999;">
+            <p> Return to <a href="{% url 'admin_home' %}">Admin Page</a></p> 
+		</div>
+	</form>
+
+</body>
+
+</html>

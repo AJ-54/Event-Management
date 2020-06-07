@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>StackHack 1.0 - StackHackers</title>
+	<style>
+		<style>
+		*{
+			box-sizing: border-box;
+		}	
+		.navbar1 a {
+			float: left;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+			font-size: 18px;
+		}
+		.topnav-right{float:right;}
+		body {
+			margin: 0;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+		#myVideo {
+			position: fixed;
+			
+			max-width: 100%; 
+			max-height: 100%;
+		}
+		.content {
+			
+			background: white;
+			color: black;
+			width: 10%;
+			padding: 20px;
+		}
+		.a1{text-decoration:none;}
+		
+	</style>
+</head>
+
+<body>
+	<header style="color:white; background-color:black;">
+		<div class="navbar1" style="background-color:black; overflow:hidden;">
+			<a href="{% url 'home' %}"><b style="font-size:30px;">STACKHACKERS</b> &nbsp &nbsp &nbsp</a>
+			<div class="topnav-right">
+				<a class="a1" href="{% url 'register' %}"><b style="color:white; font-size:22px">Register Event</b></a>
+				<a class="a1" href="{% url 'login' %}"><b style="color:white; font-size:22px">Admin Login</b></a>
+				<a href="{% url 'team' %}"><img src="{% static "images/team_name.jpg"%}" height=20px width=20px/><b>Team Info</b></a>
+			</div>
+		</div>
+		<div id="myVideo">
+			<video src="{% static "videos/back.mp4" %}" autoplay="true" loop="true" width="100%"></video>
+		</div>
+	</header>
+</body>
+<html>

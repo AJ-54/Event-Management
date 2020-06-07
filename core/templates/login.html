@@ -1,0 +1,195 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+	<style>
+		*{
+			box-sizing: border-box;
+		}	
+		.navbar1 a {
+			float: left;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+			font-size: 18px;
+		}
+		.topnav-right{float:right;}
+		body {
+			margin: 0;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+		.content {
+			
+			background: white;
+			color: black;
+			width: 10%;
+			padding: 20px;
+		}
+
+	.a1{text-decoration:none;}
+		
+	.bottomright {
+		position: absolute;
+		bottom: 8px;
+		right: 16px;
+		font-size: 18px;
+	}
+	.bottomleft {
+		position: absolute;
+		bottom: 8px;
+		left: 16px;
+		font-size: 18px;
+	}
+
+		body 
+		{
+			margin:0;
+			padding:0;
+			background-image: url({% static 'images/logo8.jpg' %});
+			background-size:cover;
+			background-attachment:fixed;
+			font-family:Tahoma,sans-serif;
+		}
+		
+		form{
+			position:absolute;
+			top:50%;
+			left:50%;
+			transform:translate(-50%,-50%);
+			width:400px;
+			height:500px;
+			box-sizing:border-box;
+			background:rgba(0,0,0,0.5);
+			padding:40px;
+			
+		}
+
+	input[type=text], input[type=password] {
+		width: 100%;
+		padding: 12px 20px;
+		margin: 8px 0;
+		display: inline-block;
+		border: 1px solid #ccc;
+		box-sizing: border-box;
+	}
+
+	button {
+		background-color: #1786QQ;
+		color: white;
+		padding: 14px 20px;
+		margin: 8px 0;
+		border: none;
+		cursor: pointer;
+		width: 100%;
+	}
+
+	button:hover {
+		opacity: 0.8;
+	}
+
+	.cancelbtn {
+		width: auto;
+		padding: 10px 18px;
+		background-color: #f44336;
+	}
+
+	.imgcontainer {
+		text-align: center;
+		margin: 24px 0 12px 0;
+	}
+
+	img.avatar {
+		width: 10%;
+		border-radius: 100%;
+	}
+
+	
+
+	span.psw {
+		float: right;
+		padding-top: 16px;
+	}
+		
+	/* Change styles for span and cancel button on extra small screens */
+	@media screen and (max-width: 300px) {
+		span.psw {
+			display: block;
+			float: none;
+		}
+		.cancelbtn {
+			width: 100%;
+		}
+	}
+
+	.myform {
+		max-width: 500px;
+		margin: auto;
+		padding: 10px;
+	}
+
+</style>
+</head>
+
+<header style="color:white; background-color:black;">
+		<div class="navbar1" style="background-color:black; overflow:hidden;">
+			<a href="{% url 'home' %}"><b style="font-size:30px;">STACKHACKERS</b> &nbsp &nbsp &nbsp</a>
+			<div class="topnav-right">
+				<a class="a1" href="{% url 'register' %}"><b style="color:white; font-size:22px">Register Event</b></a>
+				<a class="a1" href="{% url 'login' %}"><b style="color:white; font-size:22px">Admin Login</b></a>
+				<a href="{% url 'team' %}"><img src="{% static "images/team_name.jpg"%}" height=20px width=20px/><b>Team Info</b></a>
+			</div>
+		</div>
+</header>
+
+<body>
+
+<form class="myform" method="post">
+	<h2 align=center>Hello Admin! Sign In Here - </h2>
+	{% csrf_token %}
+	<div class="imgcontainer">
+		<img src="{% static "images/avatar.jpeg" %}" alt="Avatar" class="avatar" style="width:100px;height:100px;">
+	</div>
+
+	<div class="container">
+		<label for="uname"><b>Username</b></label>
+		<input type="text" placeholder="Enter Username" name="uname" required>
+
+		<label for="psw"><b>Password</b></label>
+		<input type="password" placeholder="Enter Password" name="psw" required>
+        
+		<button type="submit" style="background-color:#123456">Login</button>
+	</div>
+	{% if messages %}
+		<ul class="messages nav flex-column">
+		{% for message in messages %}
+		<li{% if message.tags %} class="{{ message.tags }} nav-item" {% endif %}><small
+			class="text-danger">{{ message }}</small></li>
+			{% endfor %}
+		</ul>
+    {% endif %}
+	<div class="container">
+		<button type="reset" class="cancelbtn">Reset</button>
+	</div>
+</form>
+
+<footer>
+	<table >
+		<tr>
+			<th class=bottomleft><small>Contact us:</small></th>
+			<th class=bottomright>
+				<table>
+				<tr>
+					<th><img src="{% static "images/email.jpg" %}" height=14px width=19px /></th>
+					<th><a href="mailto:ishagoyal2199@gmail.com"><small>ishagoyal2199@gmail.com</small></a></th>
+				<tr>
+				</table>
+			</th>
+		</tr>
+	</table>
+</footer>
+
+</body>
+</html>

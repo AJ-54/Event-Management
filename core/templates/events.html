@@ -1,0 +1,106 @@
+{% load chartkick %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="{% static "/js/chartkick.js" %}"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style type="text/css">
+        td,th{
+        text-align: center;border-bottom:2px solid gray;
+        padding:5px;
+        }
+        table{
+            width: 100%; margin-left:1%;border:2px;margin-left:auto;margin-right:auto;
+        }
+        tr:hover{
+            background-color: grey;
+        }
+        </style>
+</head>
+<body style="background-color:rgb(233, 236, 239);">
+    {% comment %} <div class="container-fluid" style="background-color:lightblue; height: 50px;">
+    </div> {% endcomment %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <li class ="navbar-brand">STACKHACKERS</li>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">  
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+          </ul>
+        </div>
+      </nav>
+
+    <div class="container-fluid" style="margin-top:30px">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card" style="background-color: lightblue; text-align: center;">
+                    <div class="card-header">
+                      <h3>Distribution by Registration Types</h3>
+                    </div>
+                    <div class="card-body">
+                      <h3 class="card-title">{% pie_chart data %}</h3>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="background-color: lightblue; text-align: center;">
+                    <div class="card-header">
+                      <h3>Welcome Page Admin</h3>
+                    </div>
+                    <div class="card-body" style="text-align: left">
+                      <h3 class="card-title">Total Registrations so far = {{tot}}</h3>
+                      <hr>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="background-color: lightblue; text-align: center;">
+                    <div class="card-header">
+                      <h3>Distribution by Registration Types</h3>
+                    </div>
+                    <div class="card-body">
+                      <h3 class="card-title">{% bar_chart data %}</h3>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        
+        
+        <hr>
+        <div class="row" style="margin-top:15px;">
+            
+            <div style="background-color:white;text-align: center;padding:5px;width:100%;">
+                <h3><button class="btn btn-primary" style="width:100%;">All Registrations</button></h3>
+                <table style="margin-top: 30px;">
+                    <!-- Do not copy the first row as it is a heading row-->
+                    <tr>
+                        <th>Registration No.</th>
+                        <th>Date</th>
+                        <th>Name</th>
+                    </tr>
+                    <!--Row to be copied -->
+                    {% for reg in registrations %}
+                    <tr>
+                        <td><a target="_blank" href="{% url 'recepit_view' pk=reg.id %}"> {{ reg.token}} </a></td>
+                        <td> {{ reg.created_at }} </td>
+                        <td> {{ reg.name }} </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+

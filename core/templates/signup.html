@@ -1,0 +1,445 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+	<style>
+		*{
+			box-sizing: border-box;
+		}	
+		.navbar1 a {
+			float: left;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+			font-size: 18px;
+		}
+		.topnav-right{float:right;}
+		body {
+			margin: 0;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+		
+		.content {
+			
+			background: white;
+			color: black;
+			width: 10%;
+			padding: 20px;
+		}
+		.a1{text-decoration:none;}
+
+	body {
+		font-family: Arial, Helvetica, sans-serif;
+		background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+		background-size: 400% 400%;
+		animation: gradient 15s ease infinite;
+	}
+
+	@keyframes gradient {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
+	}
+
+	*{
+		box-sizing: border-box;
+	}
+	
+	fieldset {
+		font-family: "Montserrat", "sans-serif"; 
+		//width: 45em;                            
+		border-radius: 0.5em;                   
+		border: 0.1em solid #ccc;              
+		background-color: #808b96;              
+		box-shadow: 0.08em 0.05em 0.08em #ccc; 
+		margin-bottom: 2em;
+	}
+	
+	input {
+		width: 100%;
+		padding: 12px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-sizing: border-box;
+		margin-top: 6px;
+		margin-bottom: 16px;
+	}
+
+	.container {
+		background-color: white;
+		padding: 16px;
+	}
+	
+	input[type=text],input[type=number], input[type=password] {
+		width: 100%;
+		padding: 15px;
+		margin: 5px 0 22px 0;
+		display: inline-block;
+		border: none;
+		border-bottom: 2px solid;
+		
+	}
+	
+	#message {
+		display:none;
+		background: #f1f1f1;
+		color: #000;
+		position: relative;
+		padding: 20px;
+		margin-top: 10px;
+	}
+	
+	#message p {
+		padding: 10px 35px;
+		font-size: 18px;
+	}
+
+	.valid {
+		color: green;
+	}
+
+	.valid:before {
+		position: relative;
+		left: -35px;
+		content: "+";
+	}
+
+	.invalid {
+		color: red;
+	}
+
+	.invalid:before {
+		position: relative;
+		left: -35px;
+		content: "-";
+	}
+	input[type=text]:focus, input[type=password]:focus {
+		background-color: #ddd;
+		outline: none;
+	}
+
+	hr {
+		border: 1px solid #f1f1f1;
+		margin-bottom: 25px;
+	}
+
+	.registerbtn {
+		background-color: rgb(255, 255, 255);
+		outline: none;
+		color: #111111;
+		padding: 16px 20px;
+		margin: 8px 0;
+		border: none;
+		cursor: pointer;
+		width: 100%;
+		opacity: 0.9;
+		font-size: 16px;
+		border: none;
+		border-radius: 10px;
+		box-shadow: 0 4px #999;
+	}
+	.registerbtn:hover {
+		opacity: 1;
+	}
+
+	a {
+		color: dodgerblue;
+	}
+
+	.signin {
+		background-color: #f1f1f1;
+		text-align: center;
+	}
+	form{
+		position:absolute;
+		top:50%;
+		left:50%;
+		transform:translate(-50%,-50%);
+		width:800px;
+		height:500px;
+		box-sizing:border-box;
+		background:rgba(0,0,0,0.5);
+		padding:40px;	
+	}
+	
+</style>
+</head>
+
+<header style="color:white; background-color:black;">
+		<div class="navbar1" style="background-color:black; overflow:hidden;">
+			<a href="{% url 'home' %}"><b style="font-size:30px;">STACKHACKERS</b> &nbsp &nbsp &nbsp</a>
+			<div class="topnav-right">
+				<a class="a1" href="{% url 'register' %}"><b style="color:white; font-size:22px">Register Event</b></a>
+				<a class="a1" href="{% url 'login' %}"><b style="color:white; font-size:22px">Admin Login</b></a>
+				<a href="{% url 'team' %}"><img src="{% static "images/team_name.jpg"%}" height=20px width=20px/><b>Team Info</b></a>
+			</div>
+		</div>
+</header>
+
+<body>
+
+	<form name="myform" id="my"  enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+		{% comment %} <script>
+				function myFunction() {
+					alert("The form was submitted");
+				}
+		</script> {% endcomment %}
+
+		<font face=jokerman color="black"> <h1 align="center">REGISTER NEW EVENT</h1> </font>
+		<fieldset><legend><b><font size=5px color="black"></font></b></legend>
+
+		<div class="container">
+		<hr>
+		<label for="name"><b>Name</b></label>
+		<input class="inputclass" type="text" placeholder="Enter full name" name="name" required>
+		
+		<label for="mobile"><b>Mobile</b></label>
+		<input class="inputclass" type="text" placeholder="Enter Mobile Number" name="mobile" required>
+	
+		<label for="email"><b>Email</b></label>
+		<input class="inputclass" type="text" placeholder="Enter Email" name="email" required>
+	
+		{% comment %} <label for="psw"><b>Enter Password</b></label>
+		<input type="password" id="psw" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Enter password" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+
+		<div id="message">
+			<h3>Password must contain the following:</h3>
+			<p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+			<p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
+			<p id="number" class="invalid">A <b>number</b></p>
+			<p id="length" class="invalid">Minimum <b>8 characters</b></p>
+		</div>	 {% endcomment %}
+	
+		<script>
+			var myInput = document.getElementById("psw");
+			var letter = document.getElementById("letter");
+			var capital = document.getElementById("capital");
+			var number = document.getElementById("number");
+			var length = document.getElementById("length");
+			// When the user clicks on the password field, show the message box
+			myInput.onfocus = function() {
+				document.getElementById("message").style.display = "block";
+			}
+			// When the user clicks outside of the password field, hide the message box
+			myInput.onblur = function() {
+				document.getElementById("message").style.display = "none";
+			}
+	
+			// When the user starts to type something inside the password field
+			myInput.onkeyup = function() {
+				// Validate lowercase letters
+				var lowerCaseLetters = /[a-z]/g;
+				if(myInput.value.match(lowerCaseLetters)) {  
+					letter.classList.remove("invalid");
+					letter.classList.add("valid");
+				} 
+				else {
+					letter.classList.remove("valid");
+					letter.classList.add("invalid");
+				}
+				// Validate capital letters
+				var upperCaseLetters = /[A-Z]/g;
+				if(myInput.value.match(upperCaseLetters)) {  
+					capital.classList.remove("invalid");
+					capital.classList.add("valid");
+				} 
+				else {
+					capital.classList.remove("valid");
+					capital.classList.add("invalid");
+				}
+				// Validate numbers
+				var numbers = /[0-9]/g;
+				if(myInput.value.match(numbers)) {  
+					number.classList.remove("invalid");
+					number.classList.add("valid");
+				} 
+				else {
+					number.classList.remove("valid");
+					number.classList.add("invalid");
+				}
+				// Validate length
+				if(myInput.value.length >= 8) {
+					length.classList.remove("invalid");
+					length.classList.add("valid");
+				}
+				else {
+					length.classList.remove("valid");
+					length.classList.add("invalid");
+				}
+			}
+		</script>
+		{% comment %} <label for="txtConfirmPassword"><b>Confirm Password</b></label> {% endcomment %}
+		{% comment %} <input type="password" id="txtConfirmPassword" title="Sholud be same as password" placeholder="Confirm Passward" name="psw" onblur="confirmPass()"/> {% endcomment %}
+
+		<div class="registrationFormAlert" style="color:green;" id="CheckPasswordMatch">
+		<script>
+			function checkPasswordMatch() 
+			{
+				function confirmPass() 
+				{
+					var psw = document.getElementById("psw").value
+					var confPass = document.getElementById("txtConfirmPassword").value
+					if(psw != confPass) 
+					{
+						alert('Wrong confirm password !');
+					}
+				}
+			}
+		</script>
+	
+		
+		<label for="file1" style="color:black"><b>Upload ID Card</b></label><br>
+		<input class="inputclass" type="file" name="file1" onchange="ValidateSingleInput(this);" required/>
+		
+		<script>
+			var _validFileExtensions = [".jpeg", ".png"];   
+			function ValidateSingleInput(oInput)
+			{
+				if (oInput.type == "file") 
+				{
+					var sFileName = oInput.value;
+					if (sFileName.length > 0) 
+					{
+						var blnValid = false;
+						for (var j = 0; j < _validFileExtensions.length; j++) 
+						{
+							var sCurExtension = _validFileExtensions[j];
+							if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) 
+							{
+								blnValid = true;
+								break;
+							}	
+						}
+						if (!blnValid) 
+						{
+							alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions.join(", "));
+							oInput.value = "";
+							return false;
+						}
+					}
+				}
+				return true;
+			}
+		</script>
+		
+		<pre></pre>
+	
+		<label for="name" style="color:black"><b>Registration Type</b></label><br><br>
+		<table>
+			<tr>
+				<td><input class="inputclass" type="radio" class="self_class" id="self" name="reg" value="SELF" onchange=func()></td>
+				<td><label for="self" style="color:black" >Self</label> &nbsp &nbsp </td>
+				<td><input class="inputclass" type="radio" id="group" name="reg" value="GROUP" onchange=func()></td>
+				<td><label for="group" style="color:black">Group</label> &nbsp &nbsp </td>
+				<td><input class="inputclass" type="radio" id="corporate" name="reg" value="CORPORATE" onchange=func()></td>
+				<td><label for="corporate" style="color:black">Corporate</label> &nbsp &nbsp </td>
+				<td><input class="inputclass" type="radio" id="others" name="reg" value="OTHER" onchange=func()></td>
+				<td><label for="other" style="color:black">Others</label></td>
+			<tr>
+		</table>
+		
+		<br><br>
+		<label for="ticket" style="color:black"><b>No of Tickets</b></label>
+		<input type="number" id="myText" placeholder="Enter no of tickets" name="ticket" required> <br>
+		
+		<script>
+			function func()
+			{
+				if(document.getElementById("self").checked)
+				{
+					document.getElementById("myText").value = "1";
+				}
+				else {
+					document.getElementById("myText").focus();
+				}
+			}		
+		</script>	
+	
+		
+		
+		<hr>
+		<script>
+		/* ID Generator */
+		(function() {
+	 function IDGenerator() {
+	 
+		 this.length = 8;
+		 this.timestamp = +new Date;
+		 
+		 var _getRandomInt = function( min, max ) {
+			return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
+		 }
+		 
+		 this.generate = function() {
+			 var ts = this.timestamp.toString();
+			 var parts = ts.split( "" ).reverse();
+			 var id = "";
+			 
+			 for( var i = 0; i < this.length; ++i ) {
+				var index = _getRandomInt( 0, parts.length - 1 );
+				id += parts[index];	 
+			 }
+			 
+			 return id;
+		 }
+
+		 
+	 }
+	 
+	 
+	 document.addEventListener( "DOMContentLoaded", function() {
+		var btn = document.querySelector( "#generate" ),
+			output = document.querySelector( "#output" );
+			
+		btn.addEventListener( "click", function() {
+			var generator = new IDGenerator();
+			output.innerHTML = generator.generate();
+			
+		}, false); 
+		 
+	 });
+	 
+	 
+ })();
+
+		</script>
+{% comment %} 
+		<p><button id="generate">Generate</button></p>
+		<p><code id="output"></code></p>
+		<p id="demo"></p>
+		<script>
+			document.getElementById("subm").onclick = displayDate;
+			function displayDate() {
+				document.getElementById("demo").innerHTML = Date();
+			}	
+		</script>
+		
+		<script type="text/javascript"> 
+			function getCurrentDate() { 
+				let date = new Date().toDateString(); 
+				document.querySelector('.output').textContent = date; 
+			} 
+		</script>  {% endcomment %}
+		</fieldset>
+		<button id="subm" type="submit" class="registerbtn" name='submit'><b>Register<b></button>
+		<div class="container signin" style="background-color: rgb(255, 255, 255);outline: none;
+		color: #111111;padding: 16px 20px;margin: 8px 0;border: none;cursor: pointer;width: 100%;opacity: 0.9; font-size: 16px; border: none; border-radius: 10px; box-shadow: 0 4px #999;">
+			<p>Are you Admin? <a href="{% url 'login' %}">Login</a></p>
+            <hr>
+            <p> Return to <a href="{% url 'home' %}">home page</a></p> 
+		</div>
+	</form>
+
+</body>
+
+</html>
