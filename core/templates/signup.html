@@ -201,100 +201,85 @@
 		<div class="container">
 		<hr>
 		<label for="name"><b>Name</b></label>
-		<input class="inputclass" type="text" placeholder="Enter full name" name="name" required>
-		
-		<label for="mobile"><b>Mobile</b></label>
-		<input class="inputclass" type="text" placeholder="Enter Mobile Number" name="mobile" required>
-	
-		<label for="email"><b>Email</b></label>
-		<input class="inputclass" type="text" placeholder="Enter Email" name="email" required>
-	
-		{% comment %} <label for="psw"><b>Enter Password</b></label>
-		<input type="password" id="psw" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Enter password" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+		<input class="inputclass" type="text" placeholder="Enter full name" name="name" required pattern='^[a-zA-Z]+$' onSubmit="return validation" required>
 
-		<div id="message">
-			<h3>Password must contain the following:</h3>
-			<p id="letter" class="invalid">A <b>lowercase</b> letter</p>
-			<p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
-			<p id="number" class="invalid">A <b>number</b></p>
-			<p id="length" class="invalid">Minimum <b>8 characters</b></p>
-		</div>	 {% endcomment %}
-	
-		<script>
-			var myInput = document.getElementById("psw");
-			var letter = document.getElementById("letter");
-			var capital = document.getElementById("capital");
-			var number = document.getElementById("number");
-			var length = document.getElementById("length");
-			// When the user clicks on the password field, show the message box
-			myInput.onfocus = function() {
-				document.getElementById("message").style.display = "block";
-			}
-			// When the user clicks outside of the password field, hide the message box
-			myInput.onblur = function() {
-				document.getElementById("message").style.display = "none";
-			}
-	
-			// When the user starts to type something inside the password field
-			myInput.onkeyup = function() {
-				// Validate lowercase letters
-				var lowerCaseLetters = /[a-z]/g;
-				if(myInput.value.match(lowerCaseLetters)) {  
-					letter.classList.remove("invalid");
-					letter.classList.add("valid");
-				} 
-				else {
-					letter.classList.remove("valid");
-					letter.classList.add("invalid");
-				}
-				// Validate capital letters
-				var upperCaseLetters = /[A-Z]/g;
-				if(myInput.value.match(upperCaseLetters)) {  
-					capital.classList.remove("invalid");
-					capital.classList.add("valid");
-				} 
-				else {
-					capital.classList.remove("valid");
-					capital.classList.add("invalid");
-				}
-				// Validate numbers
-				var numbers = /[0-9]/g;
-				if(myInput.value.match(numbers)) {  
-					number.classList.remove("invalid");
-					number.classList.add("valid");
-				} 
-				else {
-					number.classList.remove("valid");
-					number.classList.add("invalid");
-				}
-				// Validate length
-				if(myInput.value.length >= 8) {
-					length.classList.remove("invalid");
-					length.classList.add("valid");
-				}
-				else {
-					length.classList.remove("valid");
-					length.classList.add("invalid");
-				}
-			}
-		</script>
-		{% comment %} <label for="txtConfirmPassword"><b>Confirm Password</b></label> {% endcomment %}
-		{% comment %} <input type="password" id="txtConfirmPassword" title="Sholud be same as password" placeholder="Confirm Passward" name="psw" onblur="confirmPass()"/> {% endcomment %}
+		<label for="mobile"><b>Mobile(format: xxxx-xxx-xxx)</b></label>
+		<input class="inputclass" type="text" placeholder="Enter Mobile Number" name="mobile" pattern="^\d{4}-\d{3}-\d{3}$" onSubmit="return validation" required>
 
-		<div class="registrationFormAlert" style="color:green;" id="CheckPasswordMatch">
+		<label for="email">Email address</label>
+		<input class="inputclass" type="email" id="email" name="email" placeholder="Email address" aria-required="true" aria-invalid="false" required>		
 		<script>
-			function checkPasswordMatch() 
+			var api_key = "PCW45-12345-12345-1234X";
+			var example_form = document.getElementById("example_form");
+			example_form.addEventListener("submit", function(e) 
 			{
-				function confirmPass() 
+				e.preventDefault();
+				var email_field = document.getElementById("email");
+				validate_email(email_field);
+			});
+			function validate_email(element) {
+				var email_address = element.value.trim();
+				if (email_address != "") 
 				{
-					var psw = document.getElementById("psw").value
-					var confPass = document.getElementById("txtConfirmPassword").value
-					if(psw != confPass) 
-					{
-						alert('Wrong confirm password !');
+					var email_valid = document.getElementById("email_valid");
+					if (email_valid) {
+						email_valid.remove();
 					}
-				}
+					var response_html = document.createElement("div");
+					response_html.setAttribute("class", "alert");
+					response_html.setAttribute("role", "alert");
+					response_html.setAttribute("id", "email_valid");
+					var email_url = "https://ws.postcoder.com/pcw/" + api_key +"/emailaddress/" encodeURIComponent(email_address);
+					var loading_html = document.createElement("div");
+					loading_html.setAttribute("id", "email_loading");
+					loading_html.textContent = "Validating email address...";
+					element.insertAdjacentElement("afterend", loading_html);
+					var email_request = new XMLHttpRequest();
+					email_request.open("GET", email_url, true);
+					email_request.onload = function() {
+						if (email_request.status >= 200 && email_request.status < 400) {
+							loading_html.remove();
+							var data = JSON.parse(email_request.responseText);
+							if (data.alternative) {
+								response_html.classList.add("alert-warning");
+								response_html.textContent ="Did you mean: " + data.alternative + "? ";    response_html.setAttribute("role", "alertdialog");
+								var change_button = document.createElement("button");
+								change_button.setAttribute("class", "btn btn-default");
+								change_button.setAttribute("type", "button");
+								change_button.textContent = "Yes";
+								change_button.onclick = function(e) {
+									e.preventDefault();
+									element.value = data.alternative;
+									validate_email(element);
+								};
+								response_html.appendChild(change_button);
+								element.insertAdjacentElement("afterend", response_html);
+							} 
+							else {
+								if (data.valid === true) {
+									response_html.classList.add("alert-success");
+									response_html.textContent = "Email address valid";
+									element.insertAdjacentElement("afterend", response_html);
+									element.setAttribute("aria-invalid", "false");
+								} 
+								else {
+									response_html.classList.add("alert-danger");
+									response_html.textContent ="Email address not valid: " + data.state;
+									element.insertAdjacentElement("afterend", response_html);
+									element.setAttribute("aria-invalid", "true");
+								}	
+							}
+						} 
+						else {
+							loading_html.remove();
+						}
+					};
+					email_request.onerror = function() {
+					loading_html.remove();
+				};
+				email_request.send();
 			}
+		} 
 		</script>
 	
 		
