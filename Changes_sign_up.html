@@ -1,0 +1,82 @@
+
+<label for="name"><b>Name</b></label>
+		<input class="inputclass" type="text" placeholder="Enter full name" name="name" required pattern='^[a-zA-Z]+$' onSubmit="return validation" required>
+		
+		<label for="mobile"><b>Mobile(format: xxxx-xxx-xxx)</b></label>
+		<input class="inputclass" type="text" placeholder="Enter Mobile Number" name="mobile" pattern="^\d{4}-\d{3}-\d{3}$" onSubmit="return validation" required>
+
+		<label for="email">Email address</label>
+		<input class="inputclass" type="email" id="email" name="email" placeholder="Email address" aria-required="true" aria-invalid="false" required>		
+		<script>
+			var api_key = "PCW45-12345-12345-1234X";
+			var example_form = document.getElementById("example_form");
+			example_form.addEventListener("submit", function(e) 
+			{
+				e.preventDefault();
+				var email_field = document.getElementById("email");
+				validate_email(email_field);
+			});
+			function validate_email(element) {
+				var email_address = element.value.trim();
+				if (email_address != "") 
+				{
+					var email_valid = document.getElementById("email_valid");
+					if (email_valid) {
+						email_valid.remove();
+					}
+					var response_html = document.createElement("div");
+					response_html.setAttribute("class", "alert");
+					response_html.setAttribute("role", "alert");
+					response_html.setAttribute("id", "email_valid");
+					var email_url = "https://ws.postcoder.com/pcw/" + api_key +"/emailaddress/" encodeURIComponent(email_address);
+					var loading_html = document.createElement("div");
+					loading_html.setAttribute("id", "email_loading");
+					loading_html.textContent = "Validating email address...";
+					element.insertAdjacentElement("afterend", loading_html);
+					var email_request = new XMLHttpRequest();
+					email_request.open("GET", email_url, true);
+					email_request.onload = function() {
+						if (email_request.status >= 200 && email_request.status < 400) {
+							loading_html.remove();
+							var data = JSON.parse(email_request.responseText);
+							if (data.alternative) {
+								response_html.classList.add("alert-warning");
+								response_html.textContent ="Did you mean: " + data.alternative + "? ";    response_html.setAttribute("role", "alertdialog");
+								var change_button = document.createElement("button");
+								change_button.setAttribute("class", "btn btn-default");
+								change_button.setAttribute("type", "button");
+								change_button.textContent = "Yes";
+								change_button.onclick = function(e) {
+									e.preventDefault();
+									element.value = data.alternative;
+									validate_email(element);
+								};
+								response_html.appendChild(change_button);
+								element.insertAdjacentElement("afterend", response_html);
+							} 
+							else {
+								if (data.valid === true) {
+									response_html.classList.add("alert-success");
+									response_html.textContent = "Email address valid";
+									element.insertAdjacentElement("afterend", response_html);
+									element.setAttribute("aria-invalid", "false");
+								} 
+								else {
+									response_html.classList.add("alert-danger");
+									response_html.textContent ="Email address not valid: " + data.state;
+									element.insertAdjacentElement("afterend", response_html);
+									element.setAttribute("aria-invalid", "true");
+								}	
+							}
+						} 
+						else {
+							loading_html.remove();
+						}
+					};
+					email_request.onerror = function() {
+					loading_html.remove();
+				};
+				email_request.send();
+			}
+		} 
+		</script>
